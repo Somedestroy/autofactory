@@ -11,6 +11,7 @@ namespace PatternAbstractFactoryProj
             BMW, // 1
             Mercedes // 2
         }
+       
         static void Main(string[] args)
         { 
             Console.WriteLine(@"Please write auto brand (Audi = 0\BMW = 1\Mercedes = 2):");
@@ -21,24 +22,25 @@ namespace PatternAbstractFactoryProj
                 autoBrand = Int32.Parse(Console.ReadLine());
             }
 
-            AutoFactory autoFactory;
+          
             switch ((AutoBrand)autoBrand)
             {
                 case AutoBrand.Audi:
-                    autoFactory = new AudiAutoFactory();
+                    SingletonAutoFactory<AutoFactory>.SetInstance(new AudiAutoFactory());
                     break;
                 case AutoBrand.BMW:
-                    autoFactory = new BMWAutoFactory();
+                    SingletonAutoFactory<AutoFactory>.SetInstance(new BMWAutoFactory());
                     break;
                 case AutoBrand.Mercedes:
-                    autoFactory = new MercedesAutoFactory();
+                    SingletonAutoFactory<AutoFactory>.SetInstance(new MercedesAutoFactory());
                     break;
                 default:
-                    autoFactory = new AudiAutoFactory();
+                    SingletonAutoFactory<AutoFactory>.SetInstance(new AudiAutoFactory());
                     break;
             }
+            
 
-            var newSedan = autoFactory.CreateSedan();
+            var newSedan = SingletonAutoFactory<AutoFactory>.GetInstance().CreateSedan();
             Console.WriteLine($"New Sedan created: Sedan Type - {newSedan.GetType()}");
         }
     }
